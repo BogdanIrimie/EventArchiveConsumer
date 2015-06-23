@@ -18,8 +18,18 @@ public class Client {
     public static void main(String[] args) {
         RestTemplate restTemplate = restTemplate();
 
-        String url = "http://146.148.121.212:8080/monitoring/events";
+        String ip = null;
         String port = "8080";
+
+        if (args.length == 1) {
+            ip = args[0];
+        }
+        else {
+            System.out.println("Ip is missing from program arguments. Ex: java -jar EventArchiveConsumer.jar 192.168.56.105");
+            System.exit(-1);
+        }
+
+        String url = "http://" + ip + ":8080/monitoring/events";
 
         ResponseEntity<PagedResources<EventHubMessage>> responseEntity = restTemplate.exchange(
                 url, HttpMethod.GET, null,
